@@ -1,4 +1,4 @@
-// NetworkUtil.ets - API 12+ 兼容版本
+// NetworkUtil.ets - API 12+ 兼容版本（已优化）
 import connection from '@ohos.net.connection';
 import promptAction from '@ohos.promptAction';
 
@@ -25,7 +25,8 @@ export class NetworkUtil {
   async isConnected(): Promise<boolean> {
     try {
       const netManager = connection.createNetConn();
-      return await netManager.hasDefaultNet();
+      const defaultNet = await netManager.getDefaultNet();
+      return defaultNet !== null;
     } catch (error) {
       console.error('NetworkUtil', `isConnected error: ${JSON.stringify(error)}, stack: ${(error as Error).stack}`);
       return false;
@@ -73,9 +74,13 @@ export class NetworkUtil {
   async checkAndNotify(showToast: boolean = true): Promise<boolean> {
     const connected = await this.isConnected();
     if (!connected && showToast) {
-      promptAction.showToast({ 
-        message: '网络连接不可用，请检查网络设置' 
-      });
+      try {
+        promptAction.showToast({ 
+          message: '网络连接不可用，请检查网络设置' 
+        });
+      } catch (toastError) {
+        console.warn('NetworkUtil', `Failed to show toast: ${JSON.stringify(toastError)}`);
+      }
     }
     return connected;
   }
