@@ -1,0 +1,7 @@
+{
+  "entry\\src\\main\\ets\\widget\\pages\\WidgetCard.ets": [
+    "Column",
+    "Text",
+    "If"
+  ]
+}

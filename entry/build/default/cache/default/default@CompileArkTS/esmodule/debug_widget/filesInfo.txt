@@ -1,0 +1,1 @@
+D:/OneText_For_Harmonry-master/harmony-atomic/entry/build/default/cache/default/default@CompileArkTS/esmodule/debug_widget/entry/src/main/ets/widget/pages/WidgetCard.ts;com.atomicservice.6917599415967211466/entry/ets/widget/pages/WidgetCard;esm;entry|entry|1.0.0|src/main/ets/widget/pages/WidgetCard.ts;entry;false;ets
