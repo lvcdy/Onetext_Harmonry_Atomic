@@ -7,15 +7,12 @@ import { util } from '@kit.ArkTS';
 
 const TAG = 'EntryFormAbility';
 const DOMAIN = 0x0000;
-const MIN_UPDATE_INTERVAL = 30 * 60000; // 最小 30 分钟更新一次
 
 /**
  * 桌面卡片 FormExtensionAbility
  * 元服务版：支持免安装卡片，formId 持久化存储
  */
 export default class EntryFormAbility extends FormExtensionAbility {
-  private lastUpdateTime: Map<string, number> = new Map();
-
   onAddForm(want: Want): formBindingData.FormBindingData {
     hilog.info(DOMAIN, TAG, 'onAddForm');
 
@@ -26,7 +23,10 @@ export default class EntryFormAbility extends FormExtensionAbility {
 
     const formData: Record<string, string> = {
       'text': '生活不止眼前的苟且，还有诗和远方。',
-      'by': '高晓松'
+      'by': '高晓松',
+      'widget_dark': 'false',
+      'widget_shadow': 'true',
+      'widget_center': 'true'
     };
     return formBindingData.createFormBindingData(formData);
   }
@@ -35,33 +35,15 @@ export default class EntryFormAbility extends FormExtensionAbility {
     hilog.info(DOMAIN, TAG, `onCastToNormalForm, formId: ${formId}`);
   }
 
-  async onUpdateForm(formId: string): Promise<void> {
+  onUpdateForm(formId: string): void {
     hilog.info(DOMAIN, TAG, `onUpdateForm, formId: ${formId}`);
-    
-    // 限流检查
-    const now = Date.now();
-    const lastUpdate = this.lastUpdateTime.get(formId) || 0;
-    if (now - lastUpdate < MIN_UPDATE_INTERVAL) {
-      hilog.warn(DOMAIN, TAG, `Update too frequent, ignored. Last update: ${lastUpdate}`);
-      return;
-    }
-    
-    this.lastUpdateTime.set(formId, now);
-    await this.updateWidgetData(formId);
+    this.updateWidgetData(formId);
   }
 
-  async onFormEvent(formId: string, message: string): Promise<void> {
+  onFormEvent(formId: string, message: string): void {
     hilog.info(DOMAIN, TAG, `onFormEvent, formId: ${formId}, message: ${message}`);
     if (message === 'refresh') {
-      // 手动刷新也需要限流
-      const now = Date.now();
-      const lastUpdate = this.lastUpdateTime.get(formId) || 0;
-      if (now - lastUpdate < MIN_UPDATE_INTERVAL) {
-        hilog.warn(DOMAIN, TAG, `Form event refresh too frequent, ignored`);
-        return;
-      }
-      this.lastUpdateTime.set(formId, now);
-      await this.updateWidgetData(formId);
+      this.updateWidgetData(formId);
     }
   }
 
@@ -88,7 +70,7 @@ export default class EntryFormAbility extends FormExtensionAbility {
         await prefs.flush();
       }
     } catch (e) {
-      hilog.error(DOMAIN, TAG, `saveFormId error: ${JSON.stringify(e)}, stack: ${(e as Error).stack}`);
+      hilog.error(DOMAIN, TAG, `saveFormId error: ${JSON.stringify(e)}`);
     }
   }
 
@@ -103,7 +85,7 @@ export default class EntryFormAbility extends FormExtensionAbility {
       await prefs.put('form_id_list', ids.join(','));
       await prefs.flush();
     } catch (e) {
-      hilog.error(DOMAIN, TAG, `removeFormId error: ${JSON.stringify(e)}, stack: ${(e as Error).stack}`);
+      hilog.error(DOMAIN, TAG, `removeFormId error: ${JSON.stringify(e)}`);
     }
   }
 
@@ -112,11 +94,7 @@ export default class EntryFormAbility extends FormExtensionAbility {
       const prefs = await preferences.getPreferences(this.context, 'onetext_settings');
       const feedArrayStr = await this.readFeedData();
       if (feedArrayStr) {
-        const parsed = JSON.parse(feedArrayStr);
-        if (!Array.isArray(parsed)) {
-          throw new Error('Invalid feed data format');
-        }
-        const arr: object[] = parsed as object[];
+        const arr: object[] = JSON.parse(feedArrayStr) as object[];
         if (arr.length > 0) {
           const randomIndex = Math.floor(Math.random() * arr.length);
           const item = arr[randomIndex] as Record<string, string>;
@@ -126,11 +104,7 @@ export default class EntryFormAbility extends FormExtensionAbility {
           let textKey = 'text';
           let byKey = 'by';
           if (feedConfigStr) {
-            const parsedConfig = JSON.parse(feedConfigStr);
-            if (!Array.isArray(parsedConfig)) {
-              throw new Error('Invalid feed config format');
-            }
-            const feeds = parsedConfig as Record<string, string>[];
+            const feeds = JSON.parse(feedConfigStr) as Record<string, string>[];
             if (feedCode < feeds.length) {
               textKey = feeds[feedCode]['text_key'] ?? 'text';
               byKey = feeds[feedCode]['by_key'] ?? 'by';
@@ -146,7 +120,7 @@ export default class EntryFormAbility extends FormExtensionAbility {
         }
       }
     } catch (e) {
-      hilog.error(DOMAIN, TAG, `updateWidgetData error: ${JSON.stringify(e)}, stack: ${(e as Error).stack}`);
+      hilog.error(DOMAIN, TAG, `updateWidgetData error: ${JSON.stringify(e)}`);
     }
   }
 
@@ -164,7 +138,7 @@ export default class EntryFormAbility extends FormExtensionAbility {
         return decoder.decodeToString(new Uint8Array(buf));
       }
     } catch (e) {
-      hilog.error(DOMAIN, TAG, `readFeedData error: ${JSON.stringify(e)}, stack: ${(e as Error).stack}`);
+      hilog.error(DOMAIN, TAG, `readFeedData error: ${JSON.stringify(e)}`);
     }
     return null;
   }
@@ -183,7 +157,7 @@ export default class EntryFormAbility extends FormExtensionAbility {
         return decoder.decodeToString(new Uint8Array(buf));
       }
     } catch (e) {
-      hilog.error(DOMAIN, TAG, `readFeedConfig error: ${JSON.stringify(e)}, stack: ${(e as Error).stack}`);
+      hilog.error(DOMAIN, TAG, `readFeedConfig error: ${JSON.stringify(e)}`);
     }
     return null;
   }

@@ -97,163 +97,195 @@
 			"id":	"0x01000017"
 		}, {
 			"type":	"string",
-			"name":	"record_time",
+			"name":	"permission_write_imagevideo_reason",
 			"id":	"0x01000018"
 		}, {
 			"type":	"string",
-			"name":	"refresh_button",
+			"name":	"record_time",
 			"id":	"0x01000019"
 		}, {
 			"type":	"string",
-			"name":	"refresh_failed",
+			"name":	"refresh_button",
 			"id":	"0x0100001A"
 		}, {
 			"type":	"string",
-			"name":	"retry",
+			"name":	"refresh_failed",
 			"id":	"0x0100001B"
 		}, {
 			"type":	"string",
-			"name":	"save_button",
+			"name":	"refresh_onetext_text",
 			"id":	"0x0100001C"
 		}, {
 			"type":	"string",
-			"name":	"save_fail",
+			"name":	"retry",
 			"id":	"0x0100001D"
 		}, {
 			"type":	"string",
-			"name":	"save_succeed",
+			"name":	"save_button",
 			"id":	"0x0100001E"
 		}, {
 			"type":	"string",
-			"name":	"setting_title",
+			"name":	"save_fail",
 			"id":	"0x0100001F"
 		}, {
 			"type":	"string",
-			"name":	"share_text",
+			"name":	"save_succeed",
 			"id":	"0x01000020"
 		}, {
 			"type":	"string",
-			"name":	"succeed",
+			"name":	"save_text",
 			"id":	"0x01000021"
 		}, {
 			"type":	"string",
-			"name":	"widget_center",
+			"name":	"seal_button_isoff",
 			"id":	"0x01000022"
 		}, {
 			"type":	"string",
-			"name":	"widget_dark",
+			"name":	"seal_button_ison",
 			"id":	"0x01000023"
 		}, {
 			"type":	"string",
-			"name":	"widget_desc",
+			"name":	"seal_text",
 			"id":	"0x01000024"
 		}, {
 			"type":	"string",
-			"name":	"widget_display_name",
+			"name":	"setting_title",
 			"id":	"0x01000025"
 		}, {
 			"type":	"string",
-			"name":	"widget_refresh_text",
+			"name":	"share_text",
 			"id":	"0x01000026"
 		}, {
 			"type":	"string",
-			"name":	"widget_shadow",
+			"name":	"succeed",
 			"id":	"0x01000027"
 		}, {
 			"type":	"string",
-			"name":	"widget_text",
+			"name":	"widget_center",
 			"id":	"0x01000028"
 		}, {
-			"type":	"color",
-			"name":	"colorAccent",
+			"type":	"string",
+			"name":	"widget_dark",
 			"id":	"0x01000029"
 		}, {
-			"type":	"color",
-			"name":	"colorBackground",
+			"type":	"string",
+			"name":	"widget_desc",
 			"id":	"0x0100002A"
 		}, {
-			"type":	"color",
-			"name":	"colorCard",
+			"type":	"string",
+			"name":	"widget_display_name",
 			"id":	"0x0100002B"
 		}, {
-			"type":	"color",
-			"name":	"colorMD2BG",
+			"type":	"string",
+			"name":	"widget_refresh_text",
 			"id":	"0x0100002C"
 		}, {
-			"type":	"color",
-			"name":	"colorPrimary",
+			"type":	"string",
+			"name":	"widget_shadow",
 			"id":	"0x0100002D"
 		}, {
-			"type":	"color",
-			"name":	"colorPrimaryDark",
+			"type":	"string",
+			"name":	"widget_text",
 			"id":	"0x0100002E"
 		}, {
 			"type":	"color",
-			"name":	"colorText1",
+			"name":	"colorAccent",
 			"id":	"0x0100002F"
 		}, {
 			"type":	"color",
-			"name":	"colorText2",
+			"name":	"colorBackground",
 			"id":	"0x01000030"
 		}, {
 			"type":	"color",
-			"name":	"colorText3",
+			"name":	"colorCard",
 			"id":	"0x01000031"
 		}, {
 			"type":	"color",
-			"name":	"colorText4",
+			"name":	"colorMD2BG",
 			"id":	"0x01000032"
 		}, {
 			"type":	"color",
-			"name":	"colorWhite",
+			"name":	"colorPrimary",
 			"id":	"0x01000033"
 		}, {
 			"type":	"color",
-			"name":	"start_window_background",
+			"name":	"colorPrimaryDark",
 			"id":	"0x01000034"
 		}, {
-			"type":	"media",
-			"name":	"app_icon",
+			"type":	"color",
+			"name":	"colorText1",
 			"id":	"0x01000035"
 		}, {
-			"type":	"media",
-			"name":	"green_android",
+			"type":	"color",
+			"name":	"colorText2",
 			"id":	"0x01000036"
 		}, {
-			"type":	"media",
-			"name":	"ic_add",
+			"type":	"color",
+			"name":	"colorText3",
 			"id":	"0x01000037"
 		}, {
-			"type":	"media",
-			"name":	"ic_arrow_right",
+			"type":	"color",
+			"name":	"colorText4",
 			"id":	"0x01000038"
 		}, {
-			"type":	"media",
-			"name":	"ic_back",
+			"type":	"color",
+			"name":	"colorWhite",
 			"id":	"0x01000039"
 		}, {
-			"type":	"media",
-			"name":	"ic_delete",
+			"type":	"color",
+			"name":	"start_window_background",
 			"id":	"0x0100003A"
 		}, {
 			"type":	"media",
-			"name":	"ic_edit",
+			"name":	"app_icon",
 			"id":	"0x0100003B"
 		}, {
 			"type":	"media",
-			"name":	"ic_expand",
+			"name":	"green_android",
 			"id":	"0x0100003C"
 		}, {
 			"type":	"media",
-			"name":	"ic_settings",
+			"name":	"ic_add",
 			"id":	"0x0100003D"
+		}, {
+			"type":	"media",
+			"name":	"ic_arrow_right",
+			"id":	"0x0100003E"
+		}, {
+			"type":	"media",
+			"name":	"ic_back",
+			"id":	"0x0100003F"
+		}, {
+			"type":	"media",
+			"name":	"ic_delete",
+			"id":	"0x01000040"
+		}, {
+			"type":	"media",
+			"name":	"ic_edit",
+			"id":	"0x01000041"
+		}, {
+			"type":	"media",
+			"name":	"ic_expand",
+			"id":	"0x01000042"
+		}, {
+			"type":	"media",
+			"name":	"ic_heart",
+			"id":	"0x01000043"
+		}, {
+			"type":	"media",
+			"name":	"ic_settings",
+			"id":	"0x01000044"
+		}, {
+			"type":	"media",
+			"name":	"moemiku",
+			"id":	"0x01000045"
 		}, {
 			"type":	"profile",
 			"name":	"form_config",
-			"id":	"0x0100003E"
+			"id":	"0x01000046"
 		}, {
 			"type":	"profile",
 			"name":	"main_pages",
-			"id":	"0x0100003F"
+			"id":	"0x01000047"
 		}]
 }

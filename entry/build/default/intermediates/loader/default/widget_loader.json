@@ -1,23 +1,28 @@
 {
   "modulePathMap": {
-    "entry": "D:\\OneText_For_Harmonry-master\\harmony-atomic\\entry"
+    "entry": "D:\\git\\OneText_For_Harmonry\\harmony-atomic\\entry"
   },
   "compileMode": "esmodule",
-  "projectRootPath": "D:\\OneText_For_Harmonry-master\\harmony-atomic",
-  "nodeModulesPath": "D:\\OneText_For_Harmonry-master\\harmony-atomic\\entry\\build\\default\\intermediates\\loader_out\\default\\node_modules",
+  "projectRootPath": "D:\\git\\OneText_For_Harmonry\\harmony-atomic",
+  "nodeModulesPath": "D:\\git\\OneText_For_Harmonry\\harmony-atomic\\entry\\build\\default\\intermediates\\loader_out\\default\\node_modules",
   "byteCodeHarInfo": {},
   "declarationEntry": [],
   "moduleName": "entry",
   "hspNameOhmMap": {},
   "harNameOhmMap": {},
   "packageManagerType": "ohpm",
-  "compileEntry": [],
+  "compileEntry": [
+    "D:\\git\\OneText_For_Harmonry\\harmony-atomic\\entry\\build\\default\\generated\\r\\default\\ResourceTable.ts"
+  ],
   "otherCompileFiles": [],
   "dynamicImportLibInfo": {},
   "routerMap": [],
   "hspResourcesMap": {},
   "updateVersionInfo": {},
   "customizedHar": false,
-  "anBuildOutPut": "D:\\OneText_For_Harmonry-master\\harmony-atomic\\entry\\build\\default\\intermediates\\loader_out\\default\\an\\arm64-v8a",
-  "anBuildMode": "type"
+  "anBuildOutPut": "D:\\git\\OneText_For_Harmonry\\harmony-atomic\\entry\\build\\default\\intermediates\\loader_out\\default\\an\\arm64-v8a",
+  "anBuildMode": "type",
+  "patchConfig": {
+    "changedFileList": "D:\\git\\OneText_For_Harmonry\\harmony-atomic\\entry\\build\\default\\intermediates\\patch\\default\\changedFileList.json"
+  }
 }

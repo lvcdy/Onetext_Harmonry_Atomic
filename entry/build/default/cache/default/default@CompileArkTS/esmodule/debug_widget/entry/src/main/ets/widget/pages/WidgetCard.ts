@@ -4,6 +4,9 @@ if (!("finalizeConstruction" in ViewPU.prototype)) {
 interface WidgetCard_Params {
     text?: string;
     by?: string;
+    widgetDark?: string;
+    widgetShadow?: string;
+    widgetCenter?: string;
 }
 /**
  * 桌面小组件卡片 - 元服务版
@@ -26,10 +29,16 @@ class WidgetCard extends ViewPU {
     purgeVariableDependenciesOnElmtId(rmElmtId) {
         this.__text.purgeDependencyOnElmtId(rmElmtId);
         this.__by.purgeDependencyOnElmtId(rmElmtId);
+        this.__widgetDark.purgeDependencyOnElmtId(rmElmtId);
+        this.__widgetShadow.purgeDependencyOnElmtId(rmElmtId);
+        this.__widgetCenter.purgeDependencyOnElmtId(rmElmtId);
     }
     aboutToBeDeleted() {
         this.__text.aboutToBeDeleted();
         this.__by.aboutToBeDeleted();
+        this.__widgetDark.aboutToBeDeleted();
+        this.__widgetShadow.aboutToBeDeleted();
+        this.__widgetCenter.aboutToBeDeleted();
         SubscriberManager.Get().delete(this.id__());
         this.aboutToBeDeletedInternal();
     }
@@ -47,6 +56,30 @@ class WidgetCard extends ViewPU {
     set by(newValue: string) {
         this.__by.set(newValue);
     }
+    private __widgetDark: ObservedPropertyAbstractPU<string> = this.createLocalStorageProp<string>('widget_dark', 'false', "widgetDark");
+    get widgetDark() {
+        return this.__widgetDark.get();
+    }
+    set widgetDark(newValue: string) {
+        this.__widgetDark.set(newValue);
+    }
+    private __widgetShadow: ObservedPropertyAbstractPU<string> = this.createLocalStorageProp<string>('widget_shadow', 'true', "widgetShadow");
+    get widgetShadow() {
+        return this.__widgetShadow.get();
+    }
+    set widgetShadow(newValue: string) {
+        this.__widgetShadow.set(newValue);
+    }
+    private __widgetCenter: ObservedPropertyAbstractPU<string> = this.createLocalStorageProp<string>('widget_center', 'true', "widgetCenter");
+    get widgetCenter() {
+        return this.__widgetCenter.get();
+    }
+    set widgetCenter(newValue: string) {
+        this.__widgetCenter.set(newValue);
+    }
+    private isEnabled(value: string): boolean {
+        return value === 'true';
+    }
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Column.create();
@@ -54,15 +87,8 @@ class WidgetCard extends ViewPU {
             Column.height('100%');
             Column.justifyContent(FlexAlign.Center);
             Column.alignItems(HorizontalAlign.Center);
-            Column.padding(12);
-            Column.linearGradient({
-                direction: GradientDirection.RightBottom,
-                colors: [
-                    ['#667eea', 0.0],
-                    ['#764ba2', 1.0]
-                ]
-            });
-            Column.borderRadius(16);
+            Column.padding(0);
+            Column.backgroundColor(Color.Transparent);
             Column.onClick(() => {
                 postCardAction(this, {
                     action: 'router',
@@ -71,50 +97,22 @@ class WidgetCard extends ViewPU {
             });
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            // 一言文字
-            Text.create(this.text);
-            // 一言文字
-            Text.fontSize(16);
-            // 一言文字
-            Text.fontColor('#FFFFFF');
-            // 一言文字
-            Text.textAlign(TextAlign.Center);
-            // 一言文字
-            Text.maxLines(4);
-            // 一言文字
-            Text.textOverflow({ overflow: TextOverflow.Ellipsis });
-            // 一言文字
-            Text.width('100%');
-            // 一言文字
-            Text.padding({ left: 16, right: 16 });
-            // 一言文字
-            Text.textShadow({
-                radius: 4,
-                color: '#80000000',
-                offsetX: 1,
-                offsetY: 1
-            });
-        }, Text);
-        // 一言文字
-        Text.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
             If.create();
-            // 作者
-            if (this.by !== '') {
+            if (this.isEnabled(this.widgetCenter)) {
                 this.ifElseBranchUpdateFunction(0, () => {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
-                        Text.create(`—— ${this.by}`);
-                        Text.fontSize(12);
-                        Text.fontColor('#E0FFFFFF');
-                        Text.textAlign(TextAlign.End);
+                        Text.create(this.text);
+                        Text.fontSize(15);
+                        Text.fontColor(this.isEnabled(this.widgetDark) ? '#1C1C1C' : '#FFFFFF');
+                        Text.textAlign(TextAlign.Center);
+                        Text.maxLines(4);
+                        Text.textOverflow({ overflow: TextOverflow.Ellipsis });
                         Text.width('100%');
-                        Text.margin({ top: 8 });
-                        Text.padding({ right: 16 });
                         Text.textShadow({
-                            radius: 3,
-                            color: '#80000000',
-                            offsetX: 1,
-                            offsetY: 1
+                            radius: this.isEnabled(this.widgetShadow) ? 8 : 0,
+                            color: this.isEnabled(this.widgetShadow) ? '#B0000000' : '#00000000',
+                            offsetX: 0,
+                            offsetY: 0
                         });
                     }, Text);
                     Text.pop();
@@ -122,6 +120,47 @@ class WidgetCard extends ViewPU {
             }
             else {
                 this.ifElseBranchUpdateFunction(1, () => {
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Text.create(this.text);
+                        Text.fontSize(15);
+                        Text.fontColor(this.isEnabled(this.widgetDark) ? '#1C1C1C' : '#FFFFFF');
+                        Text.textAlign(TextAlign.Start);
+                        Text.maxLines(4);
+                        Text.textOverflow({ overflow: TextOverflow.Ellipsis });
+                        Text.textShadow({
+                            radius: this.isEnabled(this.widgetShadow) ? 8 : 0,
+                            color: this.isEnabled(this.widgetShadow) ? '#B0000000' : '#00000000',
+                            offsetX: 0,
+                            offsetY: 0
+                        });
+                    }, Text);
+                    Text.pop();
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        If.create();
+                        if (this.by !== '') {
+                            this.ifElseBranchUpdateFunction(0, () => {
+                                this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                    Text.create(`—— ${this.by}`);
+                                    Text.fontSize(15);
+                                    Text.fontColor(this.isEnabled(this.widgetDark) ? '#434343' : '#FFFFFF');
+                                    Text.textAlign(TextAlign.End);
+                                    Text.width('100%');
+                                    Text.textShadow({
+                                        radius: this.isEnabled(this.widgetShadow) ? 8 : 0,
+                                        color: this.isEnabled(this.widgetShadow) ? '#B0000000' : '#00000000',
+                                        offsetX: 0,
+                                        offsetY: 0
+                                    });
+                                }, Text);
+                                Text.pop();
+                            });
+                        }
+                        else {
+                            this.ifElseBranchUpdateFunction(1, () => {
+                            });
+                        }
+                    }, If);
+                    If.pop();
                 });
             }
         }, If);

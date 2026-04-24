@@ -52,7 +52,17 @@
         "name": "ohos.permission.INTERNET"
       },
       {
-        "name": "ohos.permission.WRITE_IMAGEVIDEO"
+        "name": "ohos.permission.DETECT_GESTURE"
+      },
+      {
+        "name": "ohos.permission.WRITE_IMAGEVIDEO",
+        "reason": "$string:permission_write_imagevideo_reason",
+        "usedScene": {
+          "abilities": [
+            "EntryAbility"
+          ],
+          "when": "inuse"
+        }
       }
     ]
   }

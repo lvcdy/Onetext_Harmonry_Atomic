@@ -1,8 +1,8 @@
 {
 	"forms":	[{
 			"name":	"OneTextWidget",
-			"displayName":	"$string:16777253",
-			"description":	"$string:16777252",
+			"displayName":	"$string:16777259",
+			"description":	"$string:16777258",
 			"src":	"./ets/widget/pages/WidgetCard.ets",
 			"uiSyntax":	"arkts",
 			"window":	{
@@ -10,11 +10,13 @@
 				"autoDesignWidth":	true
 			},
 			"colorMode":	"auto",
+			"isDynamic":	true,
+			"transparencyEnabled":	true,
 			"isDefault":	true,
 			"updateEnabled":	true,
 			"scheduledUpdateTime":	"10:30",
 			"updateDuration":	1,
-			"defaultDimension":	"2*4",
-			"supportDimensions":	["2*2", "2*4", "4*4"]
+			"defaultDimension":	"2*2",
+			"supportDimensions":	["2*2", "2*3", "3*3", "4*4"]
 		}]
 }

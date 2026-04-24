@@ -65,21 +65,4 @@ export class PreferencesUtil {
     await this.prefs.delete(key);
     await this.prefs.flush();
   }
-  
-  /**
-   * 批量读取多个键值
-   */
-  async getMultiple<T extends Record<string, any>>(keys: T): Promise<T> {
-    if (!this.prefs) return keys;
-    
-    const result = {} as T;
-    const promises = Object.keys(keys).map(async (key) => {
-      const defaultValue = keys[key as keyof T];
-      const value = await this.prefs!.get(key, defaultValue);
-      result[key as keyof T] = value as T[keyof T];
-    });
-    
-    await Promise.all(promises);
-    return result;
-  }
 }

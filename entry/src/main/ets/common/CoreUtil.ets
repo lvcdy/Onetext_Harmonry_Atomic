@@ -4,10 +4,6 @@ import { PreferencesUtil } from './PreferencesUtil';
 import { FileUtil } from './FileUtil';
 import { HttpUtil } from './HttpUtil';
 
-// 常量定义
-const MS_PER_MINUTE = 60000;
-const MS_PER_HOUR = 3600000;
-
 /**
  * 核心业务逻辑工具类
  * 元服务版：负责一言数据的读取、随机选取、订阅源管理等
@@ -16,11 +12,11 @@ export class CoreUtil {
   static readonly TEXT_REPLACE_HOLDER: string = '@@';
   static readonly TEXT_REPLACE: string = '\n';
 
-  private context: common.UIAbilityContext;
+  private context: common.Context;
   private prefs: PreferencesUtil;
   private currentTimeMillis: number;
 
-  constructor(context: common.UIAbilityContext) {
+  constructor(context: common.Context) {
     this.context = context;
     this.prefs = PreferencesUtil.getInstance();
     this.currentTimeMillis = Date.now();
@@ -73,14 +69,10 @@ export class CoreUtil {
     const arrayStr = await this.getOneTextArray();
     let code = 0;
     try {
-      const parsed = JSON.parse(arrayStr);
-      if (!Array.isArray(parsed)) {
-        throw new Error('Invalid OneText data format: not an array');
-      }
-      const arr: object[] = parsed as object[];
+      const arr: object[] = JSON.parse(arrayStr) as object[];
       code = Math.floor(Math.random() * arr.length);
     } catch (e) {
-      console.error('CoreUtil', `generateNewOneTextCode error: ${JSON.stringify(e)}, stack: ${(e as Error).stack}`);
+      console.error('CoreUtil', `generateNewOneTextCode error: ${JSON.stringify(e)}`);
     }
     await this.refreshLatestRefreshTime();
     await this.prefs.putNumber('onetext_code', code);
@@ -95,7 +87,7 @@ export class CoreUtil {
     if (ifFromWidget || !widgetEnabled) {
       const latestRefreshTime = await this.prefs.getNumber('onetext_latest_refresh_time', 0);
       const refreshTime = await this.prefs.getNumber('onetext_refresh_time', 30);
-      return ifFromWidget && ((this.currentTimeMillis - latestRefreshTime) >= (refreshTime * MS_PER_MINUTE));
+      return ifFromWidget && ((this.currentTimeMillis - latestRefreshTime) >= (refreshTime * 60000));
     }
     return false;
   }
@@ -116,17 +108,13 @@ export class CoreUtil {
     const arrayStr = await this.getOneTextArray();
     const code = await this.getOneTextCode(forceRefresh, ifFromWidget);
     try {
-      const parsed = JSON.parse(arrayStr);
-      if (!Array.isArray(parsed)) {
-        throw new Error('Invalid OneText data format: not an array');
-      }
-      const arr: object[] = parsed as object[];
+      const arr: object[] = JSON.parse(arrayStr) as object[];
       if (arr.length > 0 && code < arr.length) {
         const jsonObj = arr[code] as Record<string, string>;
         return this.convertOneText(jsonObj, feedMap);
       }
     } catch (e) {
-      console.error('CoreUtil', `getOneText error: ${JSON.stringify(e)}, stack: ${(e as Error).stack}`);
+      console.error('CoreUtil', `getOneText error: ${JSON.stringify(e)}`);
     }
     return {
       text: '', by: '', from: '', time: '', uri: '', quote1: '\u201C', quote2: '\u201D'
@@ -142,12 +130,9 @@ export class CoreUtil {
       const keys = textKey.split('&&');
       let text = '';
       for (let i = 0; i < keys.length; i++) {
-        const value = jsonObj[keys[i]];
-        if (value !== undefined) {
-          text += value;
-          if (i < keys.length - 1) {
-            text += CoreUtil.TEXT_REPLACE_HOLDER;
-          }
+        text += jsonObj[keys[i]] ?? '';
+        if (i < keys.length - 1) {
+          text += CoreUtil.TEXT_REPLACE_HOLDER;
         }
       }
       return text;
@@ -221,7 +206,7 @@ export class CoreUtil {
         FileUtil.writeTextToFile(data, dir, 'OneText-Library.json');
         return true;
       } catch (e) {
-        console.error('CoreUtil', `initOneText download error: ${JSON.stringify(e)}, stack: ${(e as Error).stack}`);
+        console.error('CoreUtil', `initOneText download error: ${JSON.stringify(e)}`);
         return false;
       }
     } else if (feedMap.feed_type === 'local') {
@@ -236,14 +221,10 @@ export class CoreUtil {
   async getOneTextFromApi(feedMap: FeedConfig): Promise<OneTextItem> {
     try {
       const result = await HttpUtil.get(feedMap.api_url ?? '');
-      const parsed = JSON.parse(result);
-      if (typeof parsed !== 'object' || Array.isArray(parsed)) {
-        throw new Error('Invalid API response format: expected object');
-      }
-      const jsonObj = parsed as Record<string, string>;
+      const jsonObj = JSON.parse(result) as Record<string, string>;
       return this.convertOneText(jsonObj, feedMap);
     } catch (e) {
-      console.error('CoreUtil', `getOneTextFromApi error: ${JSON.stringify(e)}, stack: ${(e as Error).stack}`);
+      console.error('CoreUtil', `getOneTextFromApi error: ${JSON.stringify(e)}`);
       return {
         text: '', by: '', from: '', time: '', uri: '', quote1: '\u201C', quote2: '\u201D'
       };
@@ -256,16 +237,12 @@ export class CoreUtil {
   async getFeedInformation(position: number): Promise<FeedConfig> {
     const feedArrayStr = this.getFeedArray();
     try {
-      const parsed = JSON.parse(feedArrayStr);
-      if (!Array.isArray(parsed)) {
-        throw new Error('Invalid Feed data format: not an array');
-      }
-      const arr: FeedConfig[] = parsed as FeedConfig[];
+      const arr: FeedConfig[] = JSON.parse(feedArrayStr) as FeedConfig[];
       if (position < arr.length) {
         return arr[position];
       }
     } catch (e) {
-      console.error('CoreUtil', `getFeedInformation error: ${JSON.stringify(e)}, stack: ${(e as Error).stack}`);
+      console.error('CoreUtil', `getFeedInformation error: ${JSON.stringify(e)}`);
     }
     return {
       feed_name: 'Unknown',
@@ -353,7 +330,7 @@ export class CoreUtil {
       if (autoUpdate) {
         const latestRefreshTime = await this.prefs.getNumber('feed_latest_refresh_time', 0);
         const refreshTime = await this.prefs.getNumber('feed_refresh_time', 1);
-        if ((this.currentTimeMillis - latestRefreshTime) > (refreshTime * MS_PER_HOUR)) {
+        if ((this.currentTimeMillis - latestRefreshTime) > (refreshTime * 3600000)) {
           try {
             const data = await HttpUtil.downloadText(feedMap.feed_url ?? '');
             const dir = `${this.context.filesDir}/OneText`;
@@ -361,7 +338,6 @@ export class CoreUtil {
             await this.prefs.putNumber('feed_latest_refresh_time', this.currentTimeMillis);
             return true;
           } catch (e) {
-            console.error('CoreUtil', `runOneTextUpdate download error: ${JSON.stringify(e)}, stack: ${(e as Error).stack}`);
             return false;
           }
         }

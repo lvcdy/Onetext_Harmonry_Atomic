@@ -20,7 +20,7 @@ export class FileUtil {
       const decoder = new util.TextDecoder('utf-8');
       return decoder.decodeToString(new Uint8Array(buf));
     } catch (e) {
-      console.error('FileUtil', `Failed to read file: ${path}, error: ${JSON.stringify(e)}, stack: ${(e as Error).stack}`);
+      console.error('FileUtil', `Failed to read file: ${path}, error: ${JSON.stringify(e)}`);
       return '';
     }
   }
@@ -42,7 +42,7 @@ export class FileUtil {
       fileIo.closeSync(file);
       return true;
     } catch (e) {
-      console.error('FileUtil', `Failed to write file: ${dirPath}/${fileName}, error: ${JSON.stringify(e)}, stack: ${(e as Error).stack}`);
+      console.error('FileUtil', `Failed to write file: ${dirPath}/${fileName}, error: ${JSON.stringify(e)}`);
       return false;
     }
   }
@@ -73,14 +73,14 @@ export class FileUtil {
   /**
    * 获取应用沙箱文件目录
    */
-  static getFilesDir(context: common.UIAbilityContext): string {
+  static getFilesDir(context: common.Context): string {
     return context.filesDir;
   }
 
   /**
    * 从 rawfile 复制资源到文件目录
    */
-  static async copyRawFileToDir(context: common.UIAbilityContext, rawFileName: string,
+  static async copyRawFileToDir(context: common.Context, rawFileName: string,
     destDir: string, destFileName: string): Promise<boolean> {
     try {
       const resourceManager = context.resourceManager;
@@ -95,7 +95,7 @@ export class FileUtil {
       fileIo.closeSync(file);
       return true;
     } catch (e) {
-      console.error('FileUtil', `Failed to copy rawfile: ${rawFileName}, error: ${JSON.stringify(e)}, stack: ${(e as Error).stack}`);
+      console.error('FileUtil', `Failed to copy rawfile: ${rawFileName}, error: ${JSON.stringify(e)}`);
       return false;
     }
   }

@@ -2,26 +2,26 @@
   "version": 1,
   "ohos-module-entry": {
     "SELECT_TARGET": "default",
-    "MODULE_BUILD_DIR": "D:\\OneText_For_Harmonry-master\\harmony-atomic\\entry\\build",
+    "MODULE_BUILD_DIR": "D:\\git\\OneText_For_Harmonry\\harmony-atomic\\entry\\build",
     "TARGETS": {
       "default": {
-        "SOURCE_ROOT": "D:\\OneText_For_Harmonry-master\\harmony-atomic\\entry\\src\\main",
+        "SOURCE_ROOT": "D:\\git\\OneText_For_Harmonry\\harmony-atomic\\entry\\src\\main",
         "RESOURCES_PATH": [
-          "D:\\OneText_For_Harmonry-master\\harmony-atomic\\entry\\src\\main\\resources"
+          "D:\\git\\OneText_For_Harmonry\\harmony-atomic\\entry\\src\\main\\resources"
         ],
         "BUILD_PATH": {
-          "OUTPUT_PATH": "D:\\OneText_For_Harmonry-master\\harmony-atomic\\entry\\build\\default\\outputs\\default",
-          "INTERMEDIA_PATH": "D:\\OneText_For_Harmonry-master\\harmony-atomic\\entry\\build\\default\\intermediates",
-          "JS_ASSETS_PATH": "D:\\OneText_For_Harmonry-master\\harmony-atomic\\entry\\build\\default\\intermediates\\loader_out\\default",
-          "JS_LITE_ASSETS_PATH": "D:\\OneText_For_Harmonry-master\\harmony-atomic\\entry\\build\\default\\intermediates\\loader_out_lite\\default",
-          "RES_PATH": "D:\\OneText_For_Harmonry-master\\harmony-atomic\\entry\\build\\default\\intermediates\\res\\default",
-          "RES_PROFILE_PATH": "D:\\OneText_For_Harmonry-master\\harmony-atomic\\entry\\build\\default\\intermediates\\res\\default\\resources\\base\\profile",
-          "ETS_SUPER_VISUAL_PATH": "D:\\OneText_For_Harmonry-master\\harmony-atomic\\entry\\build\\default\\cache\\default\\default@CompileArkTS\\esmodule",
-          "JS_SUPER_VISUAL_PATH": "D:\\OneText_For_Harmonry-master\\harmony-atomic\\entry\\build\\default\\cache\\default\\default@CompileJS\\jsbundle",
-          "WORKER_LOADER": "D:\\OneText_For_Harmonry-master\\harmony-atomic\\entry\\build\\default\\intermediates\\loader\\default\\loader.json",
-          "MANIFEST_JSON": "D:\\OneText_For_Harmonry-master\\harmony-atomic\\entry\\build\\default\\intermediates\\manifest\\default",
-          "OUTPUT_METADATA_JSON": "D:\\OneText_For_Harmonry-master\\harmony-atomic\\entry\\build\\default\\intermediates\\hap_metadata\\default\\output_metadata.json",
-          "SOURCE_MAP_DIR": "D:\\OneText_For_Harmonry-master\\harmony-atomic\\entry\\build\\default\\intermediates\\source_map\\default"
+          "OUTPUT_PATH": "D:\\git\\OneText_For_Harmonry\\harmony-atomic\\entry\\build\\default\\outputs\\default",
+          "INTERMEDIA_PATH": "D:\\git\\OneText_For_Harmonry\\harmony-atomic\\entry\\build\\default\\intermediates",
+          "JS_ASSETS_PATH": "D:\\git\\OneText_For_Harmonry\\harmony-atomic\\entry\\build\\default\\intermediates\\loader_out\\default",
+          "JS_LITE_ASSETS_PATH": "D:\\git\\OneText_For_Harmonry\\harmony-atomic\\entry\\build\\default\\intermediates\\loader_out_lite\\default",
+          "RES_PATH": "D:\\git\\OneText_For_Harmonry\\harmony-atomic\\entry\\build\\default\\intermediates\\res\\default",
+          "RES_PROFILE_PATH": "D:\\git\\OneText_For_Harmonry\\harmony-atomic\\entry\\build\\default\\intermediates\\res\\default\\resources\\base\\profile",
+          "ETS_SUPER_VISUAL_PATH": "D:\\git\\OneText_For_Harmonry\\harmony-atomic\\entry\\build\\default\\cache\\default\\default@CompileArkTS\\esmodule",
+          "JS_SUPER_VISUAL_PATH": "D:\\git\\OneText_For_Harmonry\\harmony-atomic\\entry\\build\\default\\cache\\default\\default@CompileJS\\jsbundle",
+          "WORKER_LOADER": "D:\\git\\OneText_For_Harmonry\\harmony-atomic\\entry\\build\\default\\intermediates\\loader\\default\\loader.json",
+          "MANIFEST_JSON": "D:\\git\\OneText_For_Harmonry\\harmony-atomic\\entry\\build\\default\\intermediates\\manifest\\default",
+          "OUTPUT_METADATA_JSON": "D:\\git\\OneText_For_Harmonry\\harmony-atomic\\entry\\build\\default\\intermediates\\hap_metadata\\default\\output_metadata.json",
+          "SOURCE_MAP_DIR": "D:\\git\\OneText_For_Harmonry\\harmony-atomic\\entry\\build\\default\\intermediates\\source_map\\default"
         },
         "BUILD_OPTION": {
           "debuggable": true
@@ -48,17 +48,17 @@
   },
   "ohos-project": {
     "SELECT_PRODUCT_NAME": "default",
-    "MODULE_BUILD_DIR": "D:\\OneText_For_Harmonry-master\\harmony-atomic\\build",
+    "MODULE_BUILD_DIR": "D:\\git\\OneText_For_Harmonry\\harmony-atomic\\build",
     "BUNDLE_NAME": "com.atomicservice.6917599415967211466",
     "VERSION_CODE": 2000000,
     "VERSION_NAME": "3.0.0",
     "BUILD_PATH": {
-      "OUTPUT_PATH": "D:\\OneText_For_Harmonry-master\\harmony-atomic\\build\\outputs\\default"
+      "OUTPUT_PATH": "D:\\git\\OneText_For_Harmonry\\harmony-atomic\\build\\outputs\\default"
     },
     "MODULES": [
       {
         "name": "entry",
-        "srcPath": "D:\\OneText_For_Harmonry-master\\harmony-atomic\\entry",
+        "srcPath": "D:\\git\\OneText_For_Harmonry\\harmony-atomic\\entry",
         "targets": [
           {
             "name": "default",
@@ -67,20 +67,34 @@
             ]
           }
         ],
-        "belongProjectPath": "D:\\OneText_For_Harmonry-master\\harmony-atomic"
+        "belongProjectPath": "D:\\git\\OneText_For_Harmonry\\harmony-atomic"
       }
     ],
     "PROFILE_OPT": {
       "app": {
-        "signingConfigs": [],
+        "signingConfigs": [
+          {
+            "name": "default",
+            "type": "HarmonyOS",
+            "material": {
+              "certpath": "C:\\Users\\zhz\\.ohos\\config\\default_harmony-atomic_p53ibw6FeFZKN2d9nVx4BCnqc3T54IJypeqDHNtLvvs=.cer",
+              "keyAlias": "debugKey",
+              "keyPassword": "0000001B8845EA01C684C50834ED8F3E66FD318E5A98FCDF0717CE24EA5E0789ECF2983FC2EEFA3E4B8C5D",
+              "profile": "C:\\Users\\zhz\\.ohos\\config\\default_harmony-atomic_p53ibw6FeFZKN2d9nVx4BCnqc3T54IJypeqDHNtLvvs=.p7b",
+              "signAlg": "SHA256withECDSA",
+              "storeFile": "C:\\Users\\zhz\\.ohos\\config\\default_harmony-atomic_p53ibw6FeFZKN2d9nVx4BCnqc3T54IJypeqDHNtLvvs=.p12",
+              "storePassword": "0000001BBF6B47C71C5C1A06B88BA3BC38DB3BC4E9BE4123875050D59B3F3C408955110CBC1E77CD0CDB3A"
+            }
+          }
+        ],
         "products": [
           {
             "name": "default",
             "signingConfig": "default",
-            "compileSdkVersion": "6.0.2(22)",
-            "compatibleSdkVersion": "5.0.0(12)",
+            "compileSdkVersion": "6.1.0(23)",
+            "compatibleSdkVersion": "6.1.0(23)",
             "bundleType": "atomicService",
-            "targetSdkVersion": "6.0.2(22)"
+            "targetSdkVersion": "6.1.0(23)"
           }
         ],
         "buildModeSet": [
@@ -113,7 +127,7 @@
       "hvigor.keepDependency": true
     },
     "OVERALL_PROJECT_PATHS": [
-      "D:\\OneText_For_Harmonry-master\\harmony-atomic"
+      "D:\\git\\OneText_For_Harmonry\\harmony-atomic"
     ],
     "BUILD_CACHE_DIR": ""
   }
