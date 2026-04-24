@@ -1,8 +1,8 @@
 {
 	"forms":	[{
 			"name":	"OneTextWidget",
-			"displayName":	"$string:16777259",
-			"description":	"$string:16777258",
+			"displayName":	"$string:16777260",
+			"description":	"$string:16777259",
 			"src":	"./ets/widget/pages/WidgetCard.ets",
 			"uiSyntax":	"arkts",
 			"window":	{

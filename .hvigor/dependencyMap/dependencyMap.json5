@@ -1,1 +1,1 @@
-{"basePath":"D:\\git\\OneText_For_Harmonry\\harmony-atomic\\.hvigor\\dependencyMap\\dependencyMap.json5","rootDependency":"./oh-package.json5","dependencyMap":{"entry":"./entry/oh-package.json5"},"modules":[{"name":"entry","srcPath":"..\\..\\..\\entry"}]}
+{"basePath":"D:\\git\\Onetext_Harmonry_Atomic\\.hvigor\\dependencyMap\\dependencyMap.json5","rootDependency":"./oh-package.json5","dependencyMap":{"entry":"./entry/oh-package.json5"},"modules":[{"name":"entry","srcPath":"..\\..\\..\\entry"}]}

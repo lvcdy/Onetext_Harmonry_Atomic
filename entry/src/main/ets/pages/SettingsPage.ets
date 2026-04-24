@@ -1,7 +1,6 @@
 import { common } from '@kit.AbilityKit';
 import { fileIo } from '@kit.CoreFileKit';
 import { promptAction } from '@kit.ArkUI';
-import { motion } from '@kit.MultimodalAwarenessKit';
 import { PreferencesUtil } from '../common/PreferencesUtil';
 import { CoreUtil } from '../common/CoreUtil';
 import { FeedConfig, FeedItem } from '../model/DataModels';
@@ -22,7 +21,6 @@ export struct SettingsPageContent {
   @State widgetRefreshTime: number = 30;
   @State feedList: FeedItem[] = [];
   @State selectedFeedIndex: number = 0;
-  @State isLeftHandHeld: boolean = false;
   @Consume('navPathStack') navPathStack: NavPathStack;
 
   private context: common.UIAbilityContext = getContext(this) as common.UIAbilityContext;
@@ -30,13 +28,6 @@ export struct SettingsPageContent {
   private coreUtil: CoreUtil = new CoreUtil(this.context);
   private displayModes: string[] = ['跟随系统', '浅色模式', '深色模式'];
   private chineseTypes: string[] = ['自动', '简体', '繁体', '港繁', '台繁'];
-  private holdingHandCallback = (status: motion.HoldingHandStatus): void => {
-    if (status === motion.HoldingHandStatus.LEFT_HAND_HELD) {
-      this.updateGripSide(true);
-    } else if (status === motion.HoldingHandStatus.RIGHT_HAND_HELD || status === motion.HoldingHandStatus.BOTH_HANDS_HELD) {
-      this.updateGripSide(false);
-    }
-  };
 
   async aboutToAppear(): Promise<void> {
     this.displayModeIndex = await this.prefs.getNumber('interface_daynight', 0);
@@ -49,32 +40,9 @@ export struct SettingsPageContent {
     this.widgetRefreshTime = await this.prefs.getNumber('widget_refresh_time', 30);
     this.selectedFeedIndex = await this.prefs.getNumber('feed_code', 0);
     await this.loadFeedList();
-    this.startGripAwareness();
   }
 
   aboutToDisappear(): void {
-    try {
-      motion.off('holdingHandChanged', this.holdingHandCallback);
-    } catch (e) {
-      console.warn('SettingsPage', `holdingHandChanged off skipped: ${JSON.stringify(e)}`);
-    }
-  }
-
-  private startGripAwareness(): void {
-    try {
-      motion.on('holdingHandChanged', this.holdingHandCallback);
-    } catch (e) {
-      console.warn('SettingsPage', `holdingHandChanged unsupported or permission denied: ${JSON.stringify(e)}`);
-    }
-  }
-
-  private updateGripSide(leftHandHeld: boolean): void {
-    if (this.isLeftHandHeld === leftHandHeld) {
-      return;
-    }
-    animateTo({ duration: 260, curve: Curve.Friction }, () => {
-      this.isLeftHandHeld = leftHandHeld;
-    });
   }
 
   private async loadFeedList(): Promise<void> {
@@ -148,15 +116,9 @@ export struct SettingsPageContent {
           Column() {
             this.SectionTitle($r('app.string.interface_text'))
             Row() {
-              if (this.isLeftHandHeld) {
-                this.DisplayModeSelect()
-                Blank()
-                this.SettingLabel($r('app.string.interface_daynight'))
-              } else {
-                this.SettingLabel($r('app.string.interface_daynight'))
-                Blank()
-                this.DisplayModeSelect()
-              }
+              this.SettingLabel($r('app.string.interface_daynight'))
+              Blank()
+              this.DisplayModeSelect()
             }
             .width('100%')
             .height(54)
@@ -165,15 +127,9 @@ export struct SettingsPageContent {
             this.SettingDivider()
 
             Row() {
-              if (this.isLeftHandHeld) {
-                this.ChineseTypeSelect()
-                Blank()
-                this.SettingLabel($r('app.string.chinese_type'))
-              } else {
-                this.SettingLabel($r('app.string.chinese_type'))
-                Blank()
-                this.ChineseTypeSelect()
-              }
+              this.SettingLabel($r('app.string.chinese_type'))
+              Blank()
+              this.ChineseTypeSelect()
             }
             .width('100%')
             .height(54)
@@ -186,22 +142,12 @@ export struct SettingsPageContent {
 
           Column() {
             Row() {
-              if (this.isLeftHandHeld) {
-                this.EditFeedIcon()
-                Text($r('app.string.feed_text'))
-                  .fontSize(18)
-                  .fontWeight(FontWeight.Bold)
-                  .fontColor($r('app.color.colorText2'))
-                  .layoutWeight(1)
-                  .margin({ left: 16 })
-              } else {
-                Text($r('app.string.feed_text'))
-                  .fontSize(18)
-                  .fontWeight(FontWeight.Bold)
-                  .fontColor($r('app.color.colorText2'))
-                  .layoutWeight(1)
-                this.EditFeedIcon()
-              }
+              Text($r('app.string.feed_text'))
+                .fontSize(18)
+                .fontWeight(FontWeight.Bold)
+                .fontColor($r('app.color.colorText2'))
+                .layoutWeight(1)
+              this.EditFeedIcon()
             }
             .width('100%')
             .height(58)
@@ -211,13 +157,8 @@ export struct SettingsPageContent {
 
             ForEach(this.feedList, (item: FeedItem) => {
               Row() {
-                if (this.isLeftHandHeld) {
-                  this.FeedRadio(item)
-                  this.FeedNameAfterControl(item)
-                } else {
-                  this.FeedNameBeforeControl(item)
-                  this.FeedRadio(item)
-                }
+                this.FeedNameBeforeControl(item)
+                this.FeedRadio(item)
               }
               .width('100%')
               .height(48)
@@ -454,15 +395,9 @@ export struct SettingsPageContent {
   @Builder
   SettingSwitch(label: Resource, isOn: boolean, onChange: (value: boolean) => void) {
     Row() {
-      if (this.isLeftHandHeld) {
-        this.SwitchControl(isOn, onChange)
-        Blank()
-        this.SettingLabel(label)
-      } else {
-        this.SettingLabel(label)
-        Blank()
-        this.SwitchControl(isOn, onChange)
-      }
+      this.SettingLabel(label)
+      Blank()
+      this.SwitchControl(isOn, onChange)
     }
     .width('100%')
     .padding({ left: 20, right: 20, top: 10, bottom: 10 })

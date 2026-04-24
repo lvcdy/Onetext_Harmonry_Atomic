@@ -8,7 +8,6 @@ import { PreferencesUtil } from '../common/PreferencesUtil';
 import { OneTextItem } from '../model/DataModels';
 import { componentSnapshot } from '@kit.ArkUI';
 import { photoAccessHelper } from '@kit.MediaLibraryKit';
-import { motion } from '@kit.MultimodalAwarenessKit';
 import { SettingsPageContent } from './SettingsPage';
 import { AboutPageContent } from './AboutPage';
 import { EditFeedPageContent } from './EditFeedPage';
@@ -37,20 +36,12 @@ struct Index {
   @State fromFontSize: number = 15;
   @State showSizeControls: boolean = false;
   @State sealVisible: boolean = false;
-  @State isLeftHandHeld: boolean = false;
   @State isRefreshing: boolean = false;
   @Provide('navPathStack') navPathStack: NavPathStack = new NavPathStack();
 
   private context: common.UIAbilityContext = getContext(this) as common.UIAbilityContext;
   private coreUtil: CoreUtil = new CoreUtil(this.context);
   private prefs: PreferencesUtil = PreferencesUtil.getInstance();
-  private holdingHandCallback = (status: motion.HoldingHandStatus): void => {
-    if (status === motion.HoldingHandStatus.LEFT_HAND_HELD) {
-      this.updateGripSide(true);
-    } else if (status === motion.HoldingHandStatus.RIGHT_HAND_HELD || status === motion.HoldingHandStatus.BOTH_HANDS_HELD) {
-      this.updateGripSide(false);
-    }
-  };
 
   async aboutToAppear(): Promise<void> {
     // 加载偏好设置
@@ -65,32 +56,9 @@ struct Index {
 
     // 加载一言
     await this.loadOneText(false);
-    this.startGripAwareness();
   }
 
   aboutToDisappear(): void {
-    try {
-      motion.off('holdingHandChanged', this.holdingHandCallback);
-    } catch (e) {
-      console.warn('Index', `holdingHandChanged off skipped: ${JSON.stringify(e)}`);
-    }
-  }
-
-  private startGripAwareness(): void {
-    try {
-      motion.on('holdingHandChanged', this.holdingHandCallback);
-    } catch (e) {
-      console.warn('Index', `holdingHandChanged unsupported or permission denied: ${JSON.stringify(e)}`);
-    }
-  }
-
-  private updateGripSide(leftHandHeld: boolean): void {
-    if (this.isLeftHandHeld === leftHandHeld) {
-      return;
-    }
-    animateTo({ duration: 260, curve: Curve.EaseOut }, () => {
-      this.isLeftHandHeld = leftHandHeld;
-    });
   }
 
   private async refreshByPull(): Promise<void> {
@@ -373,7 +341,7 @@ struct Index {
   @Builder
   ActionRow(label: ResourceStr, buttonText: ResourceStr, onClick: () => void) {
     Flex({
-      direction: this.isLeftHandHeld ? FlexDirection.Row : FlexDirection.RowReverse,
+      direction: FlexDirection.RowReverse,
       alignItems: ItemAlign.Center
     }) {
       Column() {
@@ -385,8 +353,8 @@ struct Index {
         .fontSize(18)
         .fontColor($r('app.color.colorText2'))
         .layoutWeight(1)
-        .margin(this.isLeftHandHeld ? { left: 20, right: 0 } : { left: 0, right: 20 })
-        .textAlign(this.isLeftHandHeld ? TextAlign.Start : TextAlign.Start)
+        .margin({ left: 0, right: 20 })
+        .textAlign(TextAlign.Start)
     }
     .width('100%')
     .height(60)
